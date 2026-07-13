@@ -139,19 +139,19 @@ CREATE TABLE Dim_Recipient (
 	RecipientKey int GENERATED ALWAYS AS IDENTITY not null,
 	RecipientUEI varchar(20) not null,
 	RecipientDUNS varchar(15),
-	RecipientName	varchar(255) not null,
+	RecipientName	varchar(255),
 	DBAName varchar(255),
 	CageCode varchar(15),
 	BusinessSize char(1),-- S = Small Business, O = Other Than Small Business
 	OrganizationalType varchar(50),	-- The structure of the entity as defined by the IRS.
-	RecipientStateCode	char(2) not null,
-	RecipientCountryCode char(3) not null,	
+	RecipientStateCode	char(2),
+	RecipientCountryCode char(3),	
 	IsForProfit	bit,
 	IsNonProfit	bit,
 	IsForeignOwned bit,
 	EffectiveStartDate timestamp default current_timestamp not null,
-	EffectiveEndDate timestamp,	
-	IsCurrent bit not null,
+	EffectiveEndDate timestamp default '9999-12-31' not null,	
+	IsCurrent bit default '1' not null,
 	CONSTRAINT PK_Dim_Recipient PRIMARY KEY (RecipientKey)
 	
 );
@@ -238,10 +238,10 @@ SS = SOLE SOURCE
 CREATE TABLE Dim_Competition (
 	CompetitionKey int GENERATED ALWAYS AS IDENTITY not null,
 	ExtentCompetedCode varchar(3) not null,	
-	ExtentCompeted	varchar(100) not null, -- A code that represents the competitive nature of the contract.
-	SolicitationProcedures varchar(100) not null, -- The designator for competitive solicitation procedures available.	
-	OtherThanFullAndOpenCompetition varchar(100) not null, -- The designator for solicitation procedures other than full and open competition pursuant to FAR 6.3.	
-	FairOpportunityLimitedSources varchar(100) not null, -- The type of statutory exception to Fair Opportunity.
+	ExtentCompeted	varchar(100), -- A code that represents the competitive nature of the contract.
+	SolicitationProcedures varchar(100), -- The designator for competitive solicitation procedures available.	
+	OtherThanFullAndOpenCompetition varchar(100), -- The designator for solicitation procedures other than full and open competition pursuant to FAR 6.3.	
+	FairOpportunityLimitedSources varchar(100), -- The type of statutory exception to Fair Opportunity.
 	CONSTRAINT PK_Dim_Competition PRIMARY KEY (CompetitionKey)
 );
 
