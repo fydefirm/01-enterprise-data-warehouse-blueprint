@@ -37,6 +37,7 @@ CREATE TABLE Fact_Awards (
 	CONSTRAINT PK_Fact_Awards PRIMARY KEY (AwardFactKey),
 	CONSTRAINT FK_Dim_Date FOREIGN KEY (DateKey) REFERENCES Dim_Date(DateKey),
 	CONSTRAINT FK_Dim_Recipient FOREIGN KEY (RecipientKey) REFERENCES Dim_Recipient (RecipientKey),
+	CONSTRAINT FK_Dim_ParentRecipient FOREIGN KEY (ParentRecipientKey) REFERENCES Dim_ParentRecipient(ParentRecipientKey),
 	CONSTRAINT FK_Dim_AwardingAgency FOREIGN KEY (AwardingAgencyKey) REFERENCES Dim_AwardingAgency (AwardingAgencyKey),
 	CONSTRAINT FK_Dim_FundingAgency FOREIGN KEY (FundingAgencyKey) REFERENCES Dim_FundingAgency (FundingAgencyKey),
 	CONSTRAINT FK_Dim_NAICS FOREIGN KEY (NAICSKey) REFERENCES Dim_NAICS (NAICSKey),

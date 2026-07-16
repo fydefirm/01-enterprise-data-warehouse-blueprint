@@ -379,6 +379,17 @@ Populate Dim_Recipient
 
 Assumptions:
 SCD Type 2
+
+Remove Duplicates:
+delete 
+from Dim_Recipient 
+where RecipientKey in ( 
+						select dup.RecipientKey
+						from(	select ROW_NUMBER() OVER(PARTITION BY recipientuei ORDER BY dbaname) Rowz, *
+								from Dim_Recipient
+							) dup
+						where dup.Rowz > 1	
+					  )
 ===============================================================================
 */
 
@@ -398,6 +409,25 @@ SELECT DISTINCT
        foreign_owned
 FROM AwardData2025_Staging;
 
+-- Dim_Recipient Duplicate Check
+select *
+from(	select ROW_NUMBER() OVER(PARTITION BY recipientuei ORDER BY dbaname) Rowz, *
+		from Dim_Recipient
+	) dup
+where dup.Rowz > 1;
+
+/*
+===============================================================================
+Populate Dim_PlaceOfPerformance
+===============================================================================
+
+Assumptions:
+
+
+Remove Duplicates:
+
+===============================================================================
+*/
 INSERT INTO Dim_PlaceOfPerformance(CountryCode,CountryName,StateCode,StateName,CountyFIPS,CountyName,CongressionalDistrict,CityName,ZIPCode)
 SELECT DISTINCT
        primary_place_of_performance_country_code,
@@ -412,3 +442,22 @@ SELECT DISTINCT
 FROM AwardData2025_Staging
 WHERE primary_place_of_performance_country_code is not null; --109149 |109148
 
+
+
+/*
+===============================================================================
+Populate Dim_ParentRecipient
+===============================================================================
+
+Assumptions:
+
+
+Remove Duplicates:
+
+===============================================================================
+*/
+
+INSERT INTO Dim_ParentRecipient (parentuei, parentduns, parentname)
+SELECT DISTINCT recipient_parent_uei,recipient_parent_duns, recipient_parent_name
+FROM AwardData2025_Staging -- 100352
+WHERE recipient_parent_uei IS NOT NULL;

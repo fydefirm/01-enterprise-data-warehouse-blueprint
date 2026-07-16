@@ -111,9 +111,39 @@ INSERT INTO Dim_AwardType
 (
     AwardTypeKey,
     AwardTypeCode,
-    AwardType,
+    AwardType
+)
+OVERRIDING SYSTEM VALUE
+VALUES
+(
+    -1,
+    'U',
+    'Unknown'   
+);
+
+------------------------------------------------------------
+-- Dim_IDVType
+------------------------------------------------------------
+INSERT INTO Dim_IDVType
+(
+    IDVTypeKey,
     IDVTypeCode,
-    IDVType,
+    IDVType    
+)
+OVERRIDING SYSTEM VALUE
+VALUES
+(
+    -1,
+    'U',
+    'Unknown'    
+);
+
+------------------------------------------------------------
+-- Dim_PricingType
+------------------------------------------------------------
+INSERT INTO Dim_PricingType
+(
+    PricingTypeKey,
     PricingTypeCode,
     PricingType,
     ContractVehicleType
@@ -121,11 +151,7 @@ INSERT INTO Dim_AwardType
 OVERRIDING SYSTEM VALUE
 VALUES
 (
-    -1,
-    'U',
-    'Unknown',
-    'U',
-    'Unknown',
+    -1,   
     '00',
     'Unknown',
     'Unknown'

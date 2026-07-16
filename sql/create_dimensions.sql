@@ -84,14 +84,24 @@ Z = LABOR HOURS
 */
 CREATE TABLE Dim_AwardType (
 	AwardTypeKey int GENERATED ALWAYS AS IDENTITY not null,
-	AwardTypeCode char(1) not null,
-	AwardType varchar(50) not null,
-	IDVTypeCode char(1) not null,
-	IDVType varchar(10) not null,
-	PricingTypeCode varchar(2) not null,
-	PricingType varchar(200) not null,
-	ContractVehicleType varchar(200) not null,
+	AwardTypeCode char(1),
+	AwardType varchar(50),	
 	CONSTRAINT PK_Dim_AwardType PRIMARY KEY (AwardTypeKey)
+);
+
+CREATE TABLE Dim_IDVType (
+	IDVTypeKey int GENERATED ALWAYS AS IDENTITY not null,	
+	IDVTypeCode char(1),
+	IDVType varchar(10),	
+	CONSTRAINT PK_Dim_IDVType PRIMARY KEY (IDVTypeKey)
+);
+
+CREATE TABLE Dim_PricingType (
+	PricingTypeKey int GENERATED ALWAYS AS IDENTITY not null,
+	PricingTypeCode varchar(2),
+	PricingType varchar(200),
+	ContractVehicleType varchar(200),
+	CONSTRAINT PK_Dim_PricingType PRIMARY KEY (PricingTypeKey)
 );
 
 -- Dim_AwardingAgency
@@ -112,7 +122,7 @@ CREATE TABLE Dim_AwardingAgency (
 CREATE TABLE Dim_FundingAgency (
 	FundingAgencyKey int GENERATED ALWAYS AS IDENTITY not null,
 	AgencyCode varchar(5) not null,
-	AgencyName varchar(200) not null,
+	AgencyName varchar(200),
 	SubAgencyCode varchar(5),
 	SubAgencyName varchar(200),
 	OfficeCode varchar(10),
@@ -161,7 +171,7 @@ CREATE TABLE Dim_ParentRecipient (
 	ParentRecipientKey int GENERATED ALWAYS AS IDENTITY not null,
 	ParentUEI varchar(20) not null,	
 	ParentDUNS varchar(15),	
-	ParentName varchar(255) not null,
+	ParentName varchar(255),
 	CONSTRAINT PK_DimParentRecipient PRIMARY KEY (ParentRecipientKey)
 );
 
