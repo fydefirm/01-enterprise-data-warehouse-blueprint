@@ -301,7 +301,16 @@ Z = LABOR HOURS
 3 = OTHER (APPLIES TO AWARDS WHERE NONE OF THE ABOVE APPLY)
 ===============================================================================
 */
-INSERT INTO Dim_AwardType (AwardTypeCode, AwardType, IDVTypeCode, IDVType, PricingTypeCode, PricingType)
+INSERT INTO Dim_AwardType (AwardTypeCode, AwardType)
+select distinct award_type_code, award_type
+from awarddata2025_staging
+where award_type_code is not null
+
+INSERT INTO Dim_IDVType (AwardTypeCode, AwardType, IDVTypeCode, IDVType, PricingTypeCode, PricingType)
+select distinct award_type_code, award_type, idv_type_code, idv_type, type_of_contract_pricing_code, type_of_contract_pricing
+from awarddata2025_staging
+
+INSERT INTO Dim_PricingType (AwardTypeCode, AwardType, IDVTypeCode, IDVType, PricingTypeCode, PricingType)
 select distinct award_type_code, award_type, idv_type_code, idv_type, type_of_contract_pricing_code, type_of_contract_pricing
 from awarddata2025_staging
 
@@ -328,6 +337,21 @@ SELECT DISTINCT
        parent_award_agency_id,
        parent_award_agency_name
 FROM AwardData2025_Staging
+
+-- Delete Duplicates
+with awardingagency as
+(
+	select awardingagencykey
+	from(
+	select row_number() over(partition by agencycode, officecode, parentagencyid order by agencycode) rowz, *
+	from dim_awardingagency) a
+	where a.rowz > 1
+
+)
+delete
+from dim_awardingagency
+using awardingagency
+where dim_awardingagency.awardingagencykey = awardingagency.awardingagencykey
 
 
 /*
@@ -361,15 +385,19 @@ Assumptions:
 ===============================================================================
 */
 
-INSERT INTO Dim_Competition(ExtentCompetedCode, ExtentCompeted, SolicitationProcedures, OtherThanFullAndOpenCompetition, FairOpportunityLimitedSources)
+INSERT INTO Dim_Competition(ExtentCompetedCode, ExtentCompeted, SolicitationProceduresCode, SolicitationProcedures, OtherThanFullAndOpenCompetitionCode, OtherThanFullAndOpenCompetition, FairOpportunityLimitedSourcesCode, FairOpportunityLimitedSources)
 SELECT DISTINCT
        extent_competed_code,
        extent_competed,
+	   solicitation_procedures_code,
        solicitation_procedures,
+	   other_than_full_and_open_competition_code,
        other_than_full_and_open_competition,
+	   fair_opportunity_limited_sources_code,
        fair_opportunity_limited_sources
 FROM AwardData2025_Staging
 WHERE extent_competed_code is not null;
+
 
 
 /*

@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS Fact_Awards;
+
 DROP TABLE IF EXISTS Dim_Date;
 DROP TABLE IF EXISTS Dim_Recipient;
 DROP TABLE IF EXISTS Dim_ParentRecipient;
@@ -249,8 +251,11 @@ CREATE TABLE Dim_Competition (
 	CompetitionKey int GENERATED ALWAYS AS IDENTITY not null,
 	ExtentCompetedCode varchar(3) not null,	
 	ExtentCompeted	varchar(100), -- A code that represents the competitive nature of the contract.
-	SolicitationProcedures varchar(100), -- The designator for competitive solicitation procedures available.	
+	SolicitationProceduresCode varchar(5),
+	SolicitationProcedures varchar(100), -- The designator for competitive solicitation procedures available.
+	OtherThanFullAndOpenCompetitioncode varchar(5),
 	OtherThanFullAndOpenCompetition varchar(100), -- The designator for solicitation procedures other than full and open competition pursuant to FAR 6.3.	
+	FairOpportunityLimitedSourcesCode varchar(5),
 	FairOpportunityLimitedSources varchar(100), -- The type of statutory exception to Fair Opportunity.
 	CONSTRAINT PK_Dim_Competition PRIMARY KEY (CompetitionKey)
 );
