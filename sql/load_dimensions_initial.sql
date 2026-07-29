@@ -385,7 +385,7 @@ Assumptions:
 ===============================================================================
 */
 
-INSERT INTO Dim_Competition(ExtentCompetedCode, ExtentCompeted, SolicitationProceduresCode, SolicitationProcedures, OtherThanFullAndOpenCompetitionCode, OtherThanFullAndOpenCompetition, FairOpportunityLimitedSourcesCode, FairOpportunityLimitedSources)
+INSERT INTO Dim_Competition(ExtentCompetedCode, ExtentCompeted, SolicitationProcedures, OtherThanFullAndOpenCompetition, FairOpportunityLimitedSources)
 SELECT DISTINCT
        extent_competed_code,
        extent_competed,
@@ -489,3 +489,33 @@ INSERT INTO Dim_ParentRecipient (parentuei, parentduns, parentname)
 SELECT DISTINCT recipient_parent_uei,recipient_parent_duns, recipient_parent_name
 FROM AwardData2025_Staging -- 100352
 WHERE recipient_parent_uei IS NOT NULL;
+
+/*
+===============================================================================
+Populate Dim_SetAside
+===============================================================================
+
+Assumptions:
+
+
+Remove Duplicates:
+
+with dups 
+as(
+select row_number() over(partition by statecode, countyfips, congressionaldistrict, zipcode, countrycode) rowz, *
+from Dim_PlaceOfPerformance
+)
+delete 
+from Dim_PlaceOfPerformance as d
+using dups
+where d.placeofperformancekey = dups.placeofperformancekey
+	and dups.rowz > 1;	
+
+===============================================================================
+*/
+INSERT INTO Dim_SetAside(TypeOfSetAsideCode,TypeOfSetAside,EvaluatedPreferenceCode,EvaluatedPreference,LocalAreaSetAside)
+SELECT distinct type_of_set_aside_code,type_of_set_aside,evaluated_preference_code,evaluated_preference,local_area_set_aside
+FROM AwardData2025_Staging
+WHERE type_of_set_aside_code IS NOT NULL
+	AND evaluated_preference_code IS NOT NULL
+	AND local_area_set_aside IS NOT NULL;
