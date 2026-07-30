@@ -306,11 +306,11 @@ When the value is 'Multiple' user input is required.
 */
 CREATE TABLE Dim_SetAside (
 	SetAsideKey	int GENERATED ALWAYS AS IDENTITY not null,
-	TypeOfSetAsideCode 	varchar(10) not null,
-	TypeOfSetAside varchar(100) not null, -- The designator for type of set aside determined for the contract action.	
-	EvaluatedPreferenceCode	varchar(5) not null,
-	EvaluatedPreference varchar(100) not null,	-- The designator for type of preference determined for the contract action.
-	LocalAreaSetAside varchar(3) not null, -- YES | NO
+	TypeOfSetAsideCode 	varchar(10),
+	TypeOfSetAside varchar(100), -- The designator for type of set aside determined for the contract action.	
+	EvaluatedPreferenceCode	varchar(5),
+	EvaluatedPreference varchar(100),	-- The designator for type of preference determined for the contract action.
+	LocalAreaSetAside varchar(3), -- YES | NO
 	CONSTRAINT PK_Dim_SetAside PRIMARY KEY (SetAsideKey)
 );
 

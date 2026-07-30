@@ -519,3 +519,43 @@ FROM AwardData2025_Staging
 WHERE type_of_set_aside_code IS NOT NULL
 	AND evaluated_preference_code IS NOT NULL
 	AND local_area_set_aside IS NOT NULL;
+
+
+/*
+===============================================================================
+Populate Dim_ContractVehicle
+===============================================================================
+
+Assumptions:
+
+
+Remove Duplicates:
+
+===============================================================================
+*/
+
+
+parentawardidpiid,parentawardtype,multipleorsingleawardidv,typeofidc,orderingperiodenddate
+
+
+select Distinct parent_award_id_piid, parent_award_type, multiple_or_single_award_idv, type_of_idc, ordering_period_end_date
+from awarddata2025_staging;
+
+
+/*
+===============================================================================
+Populate Dim_SocioEconomicFlags
+===============================================================================
+
+Assumptions:
+
+
+Remove Duplicates:
+
+===============================================================================
+*/
+insert into Dim_SocioEconomicFlags (veteranownedbusiness,servicedisabledveteranownedbusiness,womanownedbusiness,smalldisadvantagedbusiness,hubzonefirm,minorityownedbusiness,blackamericanownedbusiness,hispanicamericanownedbusiness,nativeamericanownedbusiness,
+								   alaskannativecorporationownedfirm,historicallyblackcollege,tribalcollege)
+select distinct veteran_owned_business, service_disabled_veteran_owned_business, woman_owned_business, small_disadvantaged_business, historically_underutilized_business_zone_hubzone_firm, minority_owned_business, black_american_owned_business,
+hispanic_american_owned_business, native_american_owned_business, alaskan_native_corporation_owned_firm, historically_black_college, tribal_college
+from awarddata2025_staging;
