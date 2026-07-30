@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS Fact_Awards;
 
 -- Fact_Awards
 CREATE TABLE Fact_Awards (
-	AwardFactKey	bigint GENERATED ALWAYS AS IDENTITY not null,	
+	FactAwardKey	bigint GENERATED ALWAYS AS IDENTITY not null,	
 	DateKey	int	not null, -- FK to Dim_Date
 	RecipientKey	int not null, -- FK to Dim_Recipient
 	ParentRecipientKey	int not null, -- FK to Dim_ParentRecipient
@@ -34,7 +34,7 @@ CREATE TABLE Fact_Awards (
 	FileName	varchar(255) not null, -- ETL audit
 	InitialReportDate	timestamp	not null, --ETL audit
 	LastModifiedDate	timestamp not null, -- Source audit
-	CONSTRAINT PK_Fact_Awards PRIMARY KEY (AwardFactKey),
+	CONSTRAINT PK_Fact_Awards PRIMARY KEY (FactAwardKey),
 	CONSTRAINT FK_Dim_Date FOREIGN KEY (DateKey) REFERENCES Dim_Date(DateKey),
 	CONSTRAINT FK_Dim_Recipient FOREIGN KEY (RecipientKey) REFERENCES Dim_Recipient (RecipientKey),
 	CONSTRAINT FK_Dim_ParentRecipient FOREIGN KEY (ParentRecipientKey) REFERENCES Dim_ParentRecipient(ParentRecipientKey),
