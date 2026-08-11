@@ -2,13 +2,14 @@ DROP TABLE IF EXISTS Fact_Awards;
 
 -- Fact_Awards
 CREATE TABLE Fact_Awards (
-	FactAwardKey	bigint GENERATED ALWAYS AS IDENTITY not null,	
+	AwardFactKey	bigint GENERATED ALWAYS AS IDENTITY not null,	
 	DateKey	int	not null, -- FK to Dim_Date
 	RecipientKey	int not null, -- FK to Dim_Recipient
 	ParentRecipientKey	int not null, -- FK to Dim_ParentRecipient
 	AwardingAgencyKey	int not null, -- FK to Dim_AwardingAgency
 	FundingAgencyKey	int	not null, -- FK to Dim_FundingAgency
 	NAICSKey	int	not null, -- FK to Dim_NAICS
+	StateKey	int not null, -- FK to Dim_State
 	ProductServiceCodeKey	int not null, -- FK to Dim_ProductServiceCode
 	AwardTypeKey	int	not null, -- FK to Dim_AwardType
 	CompetitionKey	int	not null, -- FK to Dim_Competition 
@@ -34,13 +35,14 @@ CREATE TABLE Fact_Awards (
 	FileName	varchar(255) not null, -- ETL audit
 	InitialReportDate	timestamp	not null, --ETL audit
 	LastModifiedDate	timestamp not null, -- Source audit
-	CONSTRAINT PK_Fact_Awards PRIMARY KEY (FactAwardKey),
+	CONSTRAINT PK_Fact_Awards PRIMARY KEY (AwardFactKey),
 	CONSTRAINT FK_Dim_Date FOREIGN KEY (DateKey) REFERENCES Dim_Date(DateKey),
 	CONSTRAINT FK_Dim_Recipient FOREIGN KEY (RecipientKey) REFERENCES Dim_Recipient (RecipientKey),
 	CONSTRAINT FK_Dim_ParentRecipient FOREIGN KEY (ParentRecipientKey) REFERENCES Dim_ParentRecipient(ParentRecipientKey),
 	CONSTRAINT FK_Dim_AwardingAgency FOREIGN KEY (AwardingAgencyKey) REFERENCES Dim_AwardingAgency (AwardingAgencyKey),
 	CONSTRAINT FK_Dim_FundingAgency FOREIGN KEY (FundingAgencyKey) REFERENCES Dim_FundingAgency (FundingAgencyKey),
 	CONSTRAINT FK_Dim_NAICS FOREIGN KEY (NAICSKey) REFERENCES Dim_NAICS (NAICSKey),
+	CONSTRAINT FK_Dim_State FOREIGN KEY (StateKey) REFERENCES Dim_State (StateKey),
 	CONSTRAINT FK_Dim_ProductServiceCode FOREIGN KEY (ProductServiceCodeKey) REFERENCES Dim_ProductServiceCode (ProductServiceCodeKey),
 	CONSTRAINT FK_Dim_AwardType FOREIGN KEY (AwardTypeKey) REFERENCES Dim_AwardType (AwardTypeKey),
 	CONSTRAINT FK_Dim_Competition FOREIGN KEY (CompetitionKey) REFERENCES Dim_Competition (CompetitionKey),
