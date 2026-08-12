@@ -75,3 +75,17 @@ Technology Stack
 - Azure Synapse
 - Azure Data Factory
 - Power BI
+
+## Glossary (source: https://www.usaspending.gov/data-dictionary)
+
+**PIID:** Procurement Instrument Identifier. The unique identifier of the specific award being reported. Award ID PIID.
+
+**Awarding Agency:** The department or establishment of the Government as used in the Treasury Account Fund Symbol (TAFS).
+
+**Funding Agency:** The department or establishment of the Government that provided the preponderance of the funds for an award and/or individual transactions related to an award.
+
+**Federal Action Obligation:** Amount of Federal government’s obligation, de-obligation, or liability, in dollars, for an award transaction.
+
+**Total Dollars Obligated:** This is a system generated element providing the sum of all the amounts entered in the "Action Obligation" field for a particular PIID and Agency. Example: Contract has 9 Modifications under "Transaction Number" as '1' and 9 modifications with the same PIID under "Transaction Number" as '2'. The base contracts and all the modifications have "Action Obligation" as $10 each. The value for the field "Total Obligated Amount" when the either of the bases or the modification is retrieved through atom feeds will be $200 ($100 under Transaction Number 1 + $100 under Transaction Number 2). "Total Obligated Amount" is generated irrespective of the "Transaction Number" on the Awards.
+
+**TransactionNumber:** Tie Breaker for legal, unique transactions that would otherwise have the same key.
