@@ -121,7 +121,7 @@ Assumptions:
 
 ===============================================================================
 */
-INSERT INTO Dim_State
+INSERT INTO Dim_State (StateCode,StateName,StateFIPS,CensusRegion,CensusDivision,CensusPopulation)
 SELECT CASE statename
 		WHEN 'ALABAMA' THEN 'AL'
 		WHEN 'ALASKA' THEN 'AK'
@@ -174,6 +174,7 @@ SELECT CASE statename
 		WHEN 'WEST VIRGINIA' THEN 'WV'
 		WHEN 'WISCONSIN' THEN 'WI'
 		WHEN 'WYOMING' THEN 'WY'
+		WHEN 'PUERTO RICO' THEN 'PR'
 	  END AS statecode, 
 	 statename, fipscode as statefips,
 	 CASE
@@ -186,6 +187,7 @@ SELECT CASE statename
 		THEN 'South'
 		WHEN statename in ('ARIZONA','COLORADO','IDAHO','MONTANA','NEVADA','NEW MEXICO','UTAH','WYOMING','ALASKA','CALIFORNIA','HAWAII','OREGON','WASHINGTON')
 		THEN 'West'
+	 ELSE 'US Territory'
 	END AS censusregion,
 	CASE
 		WHEN statename in ('CONNECTICUT','MAINE','MASSACHUSETTS','NEW HAMPSHIRE','RHODE ISLAND','VERMONT')
@@ -206,9 +208,30 @@ SELECT CASE statename
 		THEN 'Mountain'
 		WHEN statename in ('ALASKA','CALIFORNIA','HAWAII','OREGON','WASHINGTON')
 		THEN 'Pacific'
-	END AS censusdivision		
+	 ELSE 'US Territory'
+	END AS censusdivision,
+	pop2025 AS censuspopulation
 FROM statefips
 ORDER BY fipscode
+
+/*
+===============================================================================
+Populate Dim_Country
+===============================================================================
+
+Assumptions:
+
+===============================================================================
+*/
+INSERT INTO Dim_Country(CountryCode,CountryName)
+SELECT DISTINCT recipient_country_code, recipient_country_name
+FROM public.awarddata2025_staging
+WHERE recipient_country_code is not null
+	AND recipient_country_name is not null
+UNION 
+SELECT DISTINCT primary_place_of_performance_country_code, primary_place_of_performance_country_name
+FROM public.awarddata2025_staging
+WHERE primary_place_of_performance_country_code is not null
 
 /*
 ===============================================================================

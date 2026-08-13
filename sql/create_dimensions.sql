@@ -41,7 +41,16 @@ CREATE TABLE Dim_State (
 	StateFIPS char(2) not null,
 	CensusRegion varchar(20) not null,
 	CensusDivision varchar(20) not null,
+	CensusPopulation int not null,
 	CONSTRAINT PK_Dim_State PRIMARY KEY (StateKey)
+);
+
+-- Dim_Country
+CREATE TABLE Dim_Country (
+	CountryKey int GENERATED ALWAYS AS IDENTITY not null,
+	CountryCode char(3) not null,
+	CountryName varchar(250) not null,
+	CONSTRAINT PK_Dim_Country PRIMARY KEY (CountryKey)
 );
 
 -- Dim_NAICS

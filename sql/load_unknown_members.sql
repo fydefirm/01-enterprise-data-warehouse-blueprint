@@ -53,7 +53,8 @@ INSERT INTO Dim_State
     StateName,
     StateFIPS,
     CensusRegion,
-    CensusDivision
+    CensusDivision,
+	CensusPopulation
 )
 OVERRIDING SYSTEM VALUE
 VALUES
@@ -63,6 +64,25 @@ VALUES
     'Unknown',
     '00',
     'Unknown',
+    'Unknown',
+	0
+);
+
+------------------------------------------------------------
+-- Dim_Country
+------------------------------------------------------------
+INSERT INTO Dim_Country
+(
+    CountryKey,
+    CountryCode,
+    CountryName
+    
+)
+OVERRIDING SYSTEM VALUE
+VALUES
+(
+    -1,
+    'UNK',
     'Unknown'
 );
 

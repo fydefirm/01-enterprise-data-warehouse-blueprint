@@ -76,6 +76,49 @@ Technology Stack
 - Azure Data Factory
 - Power BI
 
+## Transformation & Enhancements
+
+### Staging File (2025)
+
+- There are 81 rows where recipient_country_code is populate with 0 but primary_place_of_performance_country_code has correct value. We will use primary_place_of_performance_country_code data for these rows.
+
+```
+select *
+from public.awarddata2025_staging
+where recipient_country_code = '0'
+	and primary_place_of_performance_country_code <> '0'
+
+-- Update Statement
+update public.awarddata2025_staging
+set recipient_country_code = primary_place_of_performance_country_code
+where recipient_country_code = '0'
+	and primary_place_of_performance_country_code <> '0'
+```
+
+- There are 79 USA recipient_state_code values that were populated in recipient_state_name column. We will correct this so our join to populate fact table wouldn't miss data.
+
+```
+select *
+from public.awarddata2025_staging
+where recipient_state_code is null
+	and recipient_state_name is not null
+	and recipient_country_code = 'USA'
+
+-- Update statement
+update public.awarddata2025_staging
+set recipient_state_code = recipient_state_name
+where recipient_state_code is null
+	and recipient_state_name is not null
+	and recipient_country_code = 'USA'
+
+```
+
+### Dimensional Model
+
+### Pull in Census population into Dim_State
+
+- Add census population data from https://www.census.gov/data/tables/time-series/demo/popest/2020s-state-total.html to enhance dim_state data. See implementation at src/population_enhance_dim_state.sql
+
 ## Glossary (source: https://www.usaspending.gov/data-dictionary)
 
 **PIID:** Procurement Instrument Identifier. The unique identifier of the specific award being reported. Award ID PIID.
@@ -89,3 +132,7 @@ Technology Stack
 **Total Dollars Obligated:** This is a system generated element providing the sum of all the amounts entered in the "Action Obligation" field for a particular PIID and Agency. Example: Contract has 9 Modifications under "Transaction Number" as '1' and 9 modifications with the same PIID under "Transaction Number" as '2'. The base contracts and all the modifications have "Action Obligation" as $10 each. The value for the field "Total Obligated Amount" when the either of the bases or the modification is retrieved through atom feeds will be $200 ($100 under Transaction Number 1 + $100 under Transaction Number 2). "Total Obligated Amount" is generated irrespective of the "Transaction Number" on the Awards.
 
 **TransactionNumber:** Tie Breaker for legal, unique transactions that would otherwise have the same key.
+
+```
+
+```

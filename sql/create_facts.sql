@@ -10,6 +10,7 @@ CREATE TABLE Fact_Awards (
 	FundingAgencyKey	int	not null, -- FK to Dim_FundingAgency
 	NAICSKey	int	not null, -- FK to Dim_NAICS
 	StateKey	int not null, -- FK to Dim_State
+	CountryKey	int not null, -- FK to Dim_Country
 	ProductServiceCodeKey	int not null, -- FK to Dim_ProductServiceCode
 	AwardTypeKey	int	not null, -- FK to Dim_AwardType
 	CompetitionKey	int	not null, -- FK to Dim_Competition 
@@ -43,6 +44,7 @@ CREATE TABLE Fact_Awards (
 	CONSTRAINT FK_Dim_FundingAgency FOREIGN KEY (FundingAgencyKey) REFERENCES Dim_FundingAgency (FundingAgencyKey),
 	CONSTRAINT FK_Dim_NAICS FOREIGN KEY (NAICSKey) REFERENCES Dim_NAICS (NAICSKey),
 	CONSTRAINT FK_Dim_State FOREIGN KEY (StateKey) REFERENCES Dim_State (StateKey),
+	CONSTRAINT FK_Dim_Country FOREIGN KEY (CountryKey) REFERENCES Dim_Country (CountryKey),
 	CONSTRAINT FK_Dim_ProductServiceCode FOREIGN KEY (ProductServiceCodeKey) REFERENCES Dim_ProductServiceCode (ProductServiceCodeKey),
 	CONSTRAINT FK_Dim_AwardType FOREIGN KEY (AwardTypeKey) REFERENCES Dim_AwardType (AwardTypeKey),
 	CONSTRAINT FK_Dim_Competition FOREIGN KEY (CompetitionKey) REFERENCES Dim_Competition (CompetitionKey),

@@ -1,6 +1,6 @@
 INSERT INTO Fact_Awards (    -- Target Fact columns
     DateKey, RecipientKey, ParentRecipientKey, AwardingAgencyKey, FundingAgencyKey, 
-    NAICSKey, StateKey, ProductServiceCodeKey, AwardTypeKey, CompetitionKey, SetAsideKey, 
+    NAICSKey, StateKey, CountryKey, ProductServiceCodeKey, AwardTypeKey, CompetitionKey, SetAsideKey, 
     PlaceOfPerformanceKey, ContractVehicleKey, SocioEconomicKey, FederalActionObligation, 
     TotalDollarsObligated, TotalOutlayedAmount, BaseAndExercisedOptionsValue, 
     CurrentTotalValueOfAward, BaseAndAllOptionsValue, PotentialTotalValueOfAward, 
@@ -17,6 +17,7 @@ SELECT
     COALESCE(Dim_FundingAgency.FundingAgencyKey, -1), -- 6635107 (00:02:26)
     COALESCE(Dim_NAICS.NAICSKey, -1), -- 6635107 (00:02:31)
 	COALESCE(Dim_State.StateKey, -1), -- 6635107 (00:02:31) This is recipient state
+	COALESCE(Dim_Country.CountryKey, -1), -- 6635107 (00:02:31) This is recipient Country
     COALESCE(Dim_ProductServiceCode.ProductServiceCodeKey, -1), -- 6635107 (00:02:16)
     COALESCE(Dim_AwardType.AwardTypeKey, -1), -- 6635107 (00:02:45)
     COALESCE(Dim_Competition.CompetitionKey, -1), -- 6635107 (00:03:00) rethink the last 2 columns of the join (remove from dimension table or add index exression)
@@ -61,6 +62,7 @@ LEFT JOIN Dim_FundingAgency 	   	ON s.Funding_Agency_Code = Dim_FundingAgency.Ag
 										-- and s.Parent_Award_Agency_ID = Dim_FundingAgency.ParentAgencyID
 LEFT JOIN Dim_NAICS 				ON s.naics_code = Dim_NAICS.NAICSCode
 LEFT JOIN Dim_state 				ON s.recipient_state_code = dim_state.statecode
+LEFT JOIN Dim_country				ON s.recipient_country_code = dim_country.countrycode
 LEFT JOIN Dim_ProductServiceCode	ON s.product_or_service_code = Dim_ProductServiceCode.PSCCode
 LEFT JOIN Dim_AwardType 		    ON s.Award_Type_Code = Dim_AwardType.AwardTypeCode
 LEFT JOIN Dim_Competition 	 		ON s.extent_competed_code = Dim_Competition.extentcompetedcode
